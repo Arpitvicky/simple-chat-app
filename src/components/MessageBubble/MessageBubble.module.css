@@ -1,0 +1,34 @@
+.bubble {
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid lightgrey;
+  margin-bottom: 10px;
+}
+
+.author {
+  color: #bbbfc3;
+  & .time {
+    text-align: right;
+  }
+}
+
+.time {
+  margin-top: 4px;
+  color: #bbbfc3;
+}
+
+.message {
+  color: #606466;
+}
+
+.own {
+  background-color: #fcf6c4;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.other {
+  background-color: white;
+  align-self: flex-start;
+}

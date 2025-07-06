@@ -1,0 +1,16 @@
+.inputWrapper {
+  position: sticky;
+  bottom: 0;
+  height: 10vh;
+  background: #3898d4;
+}
+
+.messagesWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  background: url("./Body_BG.png");
+  overflow-y: auto;
+  padding-left: 50px;
+  padding-right: 50px;
+}
