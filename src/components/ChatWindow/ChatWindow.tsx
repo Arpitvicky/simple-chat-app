@@ -22,43 +22,46 @@ export const ChatWindow = () => {
     }
   }, []);
 
-  const loadMessages = async (
-    before: string = "",
-    isAppend: boolean = false
-  ) => {
-    try {
-      setLoading(true);
-      const messages = await fetchMessages(before);
-      messages.sort(
-        (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      );
+  const loadMessages = useCallback(
+    async (before: string = "", isAppend: boolean = false) => {
+      try {
+        setLoading(true);
+        const messages = await fetchMessages(before);
+        messages.sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
 
-      setMessages((prev: any) =>
-        isAppend ? [...messages, ...prev] : messages
-      );
-      setIsMore(messages.length > 0); // check if messages are still coming or not
-      setLoading(false);
-    } catch (error) {
-      console.log("API couldn't load the data ", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setMessages((prev: Message[]) =>
+          isAppend ? [...messages, ...prev] : messages
+        );
+        setIsMore(messages.length > 0); // check if messages are still coming or not
+        setLoading(false);
+      } catch (error) {
+        console.log("API couldn't load the data ", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     loadMessages();
   }, []);
 
-  const handleSend = async (text: string) => {
-    try {
-      await sendMessage(text, "Arpit vicky");
-      await loadMessages();
-      scrollToBottom();
-    } catch (error) {
-      console.log("API couldn't post the message  ", error);
-    }
-  };
+  const handleSend = useCallback(
+    async (text: string) => {
+      try {
+        await sendMessage(text, "Arpit vicky");
+        await loadMessages();
+        scrollToBottom();
+      } catch (error) {
+        console.log("API couldn't post the message  ", error);
+      }
+    },
+    [loadMessages, scrollToBottom]
+  );
 
   const handleScroll = useCallback(
     debounce(() => {
