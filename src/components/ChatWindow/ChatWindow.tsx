@@ -9,6 +9,7 @@ import styles from "./ChatWindow.module.css";
 export const ChatWindow = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
   const [isMore, setIsMore] = useState<boolean>(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesWrapperRef = useRef<HTMLDivElement>(null);
@@ -38,6 +39,7 @@ export const ChatWindow = () => {
         setIsMore(messages.length > 0); // check if messages are still coming or not
         setLoading(false);
       } catch (error) {
+        setIsError(true);
         console.log("API couldn't load the data ", error);
       } finally {
         setLoading(false);
@@ -57,6 +59,7 @@ export const ChatWindow = () => {
         await loadMessages();
         scrollToBottom();
       } catch (error) {
+        alert("Sorry, looks like some issue sending message");
         console.log("API couldn't post the message  ", error);
       }
     },
@@ -83,10 +86,16 @@ export const ChatWindow = () => {
         onScroll={handleScroll}
         ref={messagesWrapperRef}
       >
-        {messages.map((message) => (
-          <MessageBubble key={message._id} message={message} />
-        ))}
-        <div ref={messagesEndRef} />
+        {isError ? (
+          <h2>Sorry, at this moment messages can't be fetched</h2>
+        ) : (
+          <>
+            {messages.map((message) => (
+              <MessageBubble key={message._id} message={message} />
+            ))}
+            <div ref={messagesEndRef} />
+          </>
+        )}
       </div>
       <div className={styles.inputWrapper}>
         <MessageInput onMessageSend={handleSend} />
