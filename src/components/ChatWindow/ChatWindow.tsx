@@ -12,6 +12,10 @@ export const ChatWindow = () => {
     try {
       setLoading(true);
       const messages = await fetchMessages();
+      messages.sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
       setMessages(messages);
       setLoading(false);
     } catch (error) {
@@ -24,7 +28,6 @@ export const ChatWindow = () => {
   useEffect(() => {
     loadMessages();
   }, []);
-
   return (
     <>
       <div className={styles.messagesWrapper}>
