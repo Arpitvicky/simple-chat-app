@@ -3,6 +3,8 @@
   bottom: 0;
   height: 10vh;
   background: #3898d4;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 .messagesWrapper {

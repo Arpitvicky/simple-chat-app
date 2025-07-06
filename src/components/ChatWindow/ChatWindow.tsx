@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchMessages } from "../../api/message";
+import { fetchMessages, sendMessage } from "../../api/message";
 import type { Message } from "../../types/message";
 import { MessageBubble } from "../MessageBubble/MessageBubble";
 import { MessageInput } from "../MessageInput/MessageInput";
@@ -8,6 +8,7 @@ import styles from "./ChatWindow.module.css";
 export const ChatWindow = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
   const loadMessages = async () => {
     try {
       setLoading(true);
@@ -28,6 +29,16 @@ export const ChatWindow = () => {
   useEffect(() => {
     loadMessages();
   }, []);
+
+  const handleSend = async (text: string) => {
+    try {
+      await sendMessage(text, "Arpit vicky");
+      await loadMessages();
+    } catch (error) {
+      console.log("API couldn't post the message  ", error);
+    }
+  };
+
   return (
     <>
       <div className={styles.messagesWrapper}>
@@ -40,7 +51,7 @@ export const ChatWindow = () => {
         )}
       </div>
       <div className={styles.inputWrapper}>
-        <MessageInput />
+        <MessageInput onMessageSend={handleSend} />
       </div>
     </>
   );
