@@ -39,16 +39,14 @@ export const ChatWindow = () => {
     }
   };
 
+  if (loading) return <p>loading messages....</p>;
+
   return (
     <>
       <div className={styles.messagesWrapper}>
-        {loading ? (
-          <p>loading messages....</p>
-        ) : (
-          messages.map((message) => (
-            <MessageBubble key={message._id} message={message} />
-          ))
-        )}
+        {messages.map((message) => (
+          <MessageBubble key={message._id} message={message} />
+        ))}
       </div>
       <div className={styles.inputWrapper}>
         <MessageInput onMessageSend={handleSend} />
