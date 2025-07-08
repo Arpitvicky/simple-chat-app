@@ -10,7 +10,10 @@ export const MessageInput = ({ onMessageSend }: Props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) alert("Please enter your message");
+    if (!message.trim()) {
+      alert("Please enter your message");
+      return;
+    }
     onMessageSend(message.trim());
     setMessage("");
   };
